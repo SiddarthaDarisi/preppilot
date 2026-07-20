@@ -1,0 +1,16 @@
+# PrepPilot — core backend (text-only Phase 1 works with just these)
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+pydantic-settings>=2.3
+sqlalchemy>=2.0
+pyyaml>=6.0
+httpx>=0.27
+python-multipart>=0.0.9
+
+# Cloud LLM providers (optional — only needed if configured)
+anthropic>=0.40
+openai>=1.40
+
+# Voice + analytics (Phases 2-3). Install on the GPU machine:
+#   pip install -r requirements-voice.txt --break-system-packages

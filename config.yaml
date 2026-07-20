@@ -1,0 +1,52 @@
+# PrepPilot configuration — local-first with cloud fallback.
+# Every value can be overridden with env vars: PREPPILOT_LLM__PROVIDER=openai etc.
+
+llm:
+  provider: ollama          # ollama | anthropic | openai
+  model: qwen3:8b           # Strategy B (sequential). Use qwen3:4b to co-reside with Whisper (Strategy A).
+  temperature: 0.4
+  base_url: http://localhost:11434
+  # If the local provider is unreachable at startup, fall back to this one (blank = no fallback).
+  fallback_provider: openai
+  fallback_model: gpt-5-mini
+
+anthropic:
+  model: claude-haiku-4-5   # "premium coaching" toggle
+openai:
+  model: gpt-5-mini
+
+stt:
+  backend: faster-whisper   # faster-whisper | none
+  model: large-v3           # large-v3-turbo = ~2x faster decode, slightly lower accuracy, ~1.5GB VRAM — swap here if turns feel slow
+  compute_type: int8_float16
+  device: cuda              # cuda | cpu | auto
+
+vad:
+  backend: silero           # silero | none
+  end_of_turn_silence_ms: 1000
+  chunk_ms: 200
+
+tts:
+  backend: kokoro           # kokoro | none
+  # af_heart is Kokoro's most natural-sounding voice (American female).
+  # am_adam (the old default) reads as a harsh, hard-to-parse deep male voice.
+  # Other options: af_bella, af_nicole, af_sarah (female), bf_emma (British female), am_michael (male).
+  voice: af_heart
+  lang_code: a
+
+analytics:
+  use_ser: false            # optional wav2vec2 SER secondary signal
+  filler_target_rate: 0.03
+  wpm_range: [110, 160]
+
+session:
+  max_questions: 8
+  followup_score_threshold: 6   # overall < this triggers a targeted follow-up
+
+db:
+  url: sqlite:///preppilot.db
+
+server:
+  host: 127.0.0.1
+  port: 8000
+  cors_origins: ["*"]

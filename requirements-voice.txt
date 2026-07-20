@@ -1,0 +1,16 @@
+# PrepPilot — voice + delivery-analytics extras (Phases 2-3)
+# Requires CUDA 12 + cuDNN 9 for ctranslate2 (if cuDNN 8: pip install --force-reinstall ctranslate2==4.4.0)
+faster-whisper>=1.2.0
+silero-vad>=5.1
+numpy>=1.26
+soundfile>=0.12
+praat-parselmouth>=0.4.5
+librosa>=0.10.2
+numba>=0.60          # pin: without it the resolver backtracks to numba 0.53.x, which cannot build on py3.12+
+
+# TTS (interviewer voice) — runs fine on CPU
+kokoro>=0.8
+
+# Optional SER (config: analytics.use_ser) — pulls torch + transformers
+# transformers>=4.44.0
+# torch

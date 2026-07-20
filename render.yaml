@@ -1,0 +1,19 @@
+# Render Blueprint — free text-mode demo of PrepPilot.
+# New → Blueprint → pick this repo; Render reads the Docker build + env below.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: preppilot
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    # Render injects $PORT; the Dockerfile CMD binds ${PORT:-8000}.
+    envVars:
+      - key: PREPPILOT_LLM__PROVIDER
+        value: fake        # canned coaching — no GPU, no API key
+      - key: PREPPILOT_STT__BACKEND
+        value: none        # don't load Whisper on a CPU box
+      - key: PREPPILOT_TTS__BACKEND
+        value: none        # don't load Kokoro
+      - key: PREPPILOT_VAD__BACKEND
+        value: none        # no mic turn-detection in text mode
