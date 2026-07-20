@@ -382,9 +382,52 @@ class InterviewOrchestrator:
             temperature=self.settings.llm.temperature,
         )
         assert isinstance(report, ReportResult)
+        # The LLM writes good prose but is unreliable at arithmetic — it would
+        # report overall 0.0 / WPM 0 / confidence 0 even after a strong answer.
+        # Override the NUMERIC fields with values computed from the real
+        # per-answer scores and metrics; keep the LLM's qualitative text.
+        self._apply_computed_scores(report)
         repositories.save_report(self.db, self.session_row.id, report)
         duration = time.monotonic() - self._started_at
         repositories.set_session_completed(
             self.db, self.session_row.id, report.overall_score, duration
         )
         return report
+
+    def _apply_computed_scores(self, report: ReportResult) -> None:
+        """Recompute overall_score, category_scores and the delivery summary
+        numbers deterministically from per_question_results, so they always
+        match the per-answer feedback the candidate actually saw."""
+        results = self.per_question_results
+        if not results:
+            return
+
+        overalls = [
+            r["scores"]["overall"]
+            for r in results
+            if r.get("scores") and r["scores"].get("overall") is not None
+        ]
+        if overalls:
+            report.overall_score = round(sum(overalls) / len(overalls), 1)
+
+        by_cat: dict[str, list[float]] = {}
+        for r in results:
+            ov = (r.get("scores") or {}).get("overall")
+            if ov is not None:
+                by_cat.setdefault(r["category"], []).append(ov)
+        if by_cat:
+            report.category_scores = {
+                cat: round(sum(v) / len(v), 1) for cat, v in by_cat.items()
+            }
+
+        metrics = [r["delivery_metrics"] for r in results if r.get("delivery_metrics")]
+        if metrics:
+            def _avg(key: str, only_positive: bool = False) -> float:
+                vals = [m.get(key, 0) or 0 for m in metrics]
+                if only_positive:
+                    vals = [v for v in vals if v > 0]
+                return round(sum(vals) / len(vals), 2) if vals else 0.0
+
+            report.delivery_summary.avg_wpm = _avg("wpm", only_positive=True)
+            report.delivery_summary.avg_filler_rate = _avg("filler_rate")
+            report.delivery_summary.avg_confidence = _avg("confidence_proxy", only_positive=True)

@@ -10,12 +10,11 @@ mic → Silero VAD → faster-whisper (word timestamps) → prosody + filler ana
 
 **Stack:** FastAPI + WebSockets · SQLite/SQLAlchemy · Next.js (static export) · Ollama · faster-whisper · Silero VAD · parselmouth/librosa · Kokoro-82M TTS
 
-**🔗 Links:** [System design](docs/ARCHITECTURE.md) · [Deploy a free demo](DEPLOY.md) · Live demo: `{{DEMO_URL}}` · Demo video: `{{VIDEO_LINK}}`
+**🔗 Links:** [Demo video]({{VIDEO_LINK}}) · [System design](docs/ARCHITECTURE.md) · [Deploy your own](DEPLOY.md)
 
-> A **text-mode** live demo runs on a free CPU host (Render/Koyeb) with canned coaching — no
-> GPU, no API key (see [DEPLOY.md](DEPLOY.md)). The **voice** experience (speech-to-text,
-> delivery analytics, TTS interviewer) needs a local GPU; run it yourself (below) or watch
-> the demo video.
+> The full **voice** experience (speech-to-text, delivery analytics, TTS interviewer) runs
+> locally on a GPU — watch the demo video, or run it yourself (below). A text-only build can
+> also be self-hosted for free; see [DEPLOY.md](DEPLOY.md).
 
 ## Features
 
