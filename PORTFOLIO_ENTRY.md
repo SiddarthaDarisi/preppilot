@@ -51,7 +51,7 @@ trade-offs around reliability, cost, and privacy.
 - **AI / ML:** Ollama (qwen3), Claude Haiku 4.5 / GPT-5 mini (cloud option), faster-whisper
   (STT), Silero VAD, Kokoro TTS, parselmouth + librosa (prosody analytics)
 - **Frontend:** Next.js 14 (App Router), TypeScript, static export, hand-rolled canvas charts
-- **Infra / tooling:** Docker, Hugging Face Spaces (free demo host), GitHub, pytest, uv
+- **Infra / tooling:** Docker, Render / Koyeb (free demo host), GitHub, pytest, uv
 
 ## Value Proposition
 *(Artifact-specific value proposition)* **PrepPilot gives job seekers a private, unlimited,

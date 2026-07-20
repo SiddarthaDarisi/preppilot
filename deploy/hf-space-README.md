@@ -16,8 +16,10 @@ This Space runs the **text-only** interview loop of
 typing, and get structured 1–10 rubric coaching (content, structure/STAR, specificity,
 technical accuracy, delivery) plus a final report and a trends dashboard.
 
-It runs on a **free CPU Space** with the canned `fake` LLM provider — no GPU and no API key
-required. The full experience — spoken answers, faster-whisper transcription, delivery
+It runs in **text mode** with the canned `fake` LLM provider — no GPU and no API key
+required. (Note: HF Docker Spaces now need a PRO plan; for a free host use Render/Koyeb per
+the repo's `DEPLOY.md`. This header is kept for anyone deploying on HF PRO.) The full
+experience — spoken answers, faster-whisper transcription, delivery
 analytics (WPM / pauses / fillers / pitch), and a Kokoro TTS interviewer voice — needs a
 local GPU; see the repo's README and the demo video.
 
