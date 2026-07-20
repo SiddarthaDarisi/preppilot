@@ -10,7 +10,7 @@ mic → Silero VAD → faster-whisper (word timestamps) → prosody + filler ana
 
 **Stack:** FastAPI + WebSockets · SQLite/SQLAlchemy · Next.js (static export) · Ollama · faster-whisper · Silero VAD · parselmouth/librosa · Kokoro-82M TTS
 
-**🔗 Links:** [Demo video]({{VIDEO_LINK}}) · [System design](docs/ARCHITECTURE.md) · [Deploy your own](DEPLOY.md)
+**🔗 Links:** [Demo video](https://github.com/SiddarthaDarisi/preppilot/releases/download/v1.0.0/preppilot-demo.mp4) · [System design](docs/ARCHITECTURE.md) · [Deploy your own](DEPLOY.md)
 
 > The full **voice** experience (speech-to-text, delivery analytics, TTS interviewer) runs
 > locally on a GPU — watch the demo video, or run it yourself (below). A text-only build can

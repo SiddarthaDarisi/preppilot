@@ -1,9 +1,8 @@
 # Portfolio Artifact — PrepPilot
 
-> Paste-ready artifact entry for the AIML-500 professional portfolio. Fill in the one
-> placeholder — `{{VIDEO_LINK}}` (your demo recording) — then drop this into your portfolio
-> site (Google Sites / Wix / GitHub Pages). Keep the **Reflection** out of the public site;
-> submit it to Brightspace.
+> Paste-ready artifact entry for the AIML-500 professional portfolio — drop this into your
+> portfolio site (Google Sites / Wix / GitHub Pages). Keep the **Reflection** out of the
+> public site; submit it to Brightspace.
 
 ---
 
@@ -72,7 +71,7 @@ end-to-end AI/ML systems engineering — real-time inference, model orchestratio
 budgeting, and reliable UX — the exact skill set an AI/ML practitioner is hired for.
 
 ## Demo & Source
-- **Demo video (full voice loop):** {{VIDEO_LINK}}
+- **Demo video (full voice loop):** [Download MP4](https://github.com/SiddarthaDarisi/preppilot/releases/download/v1.0.0/preppilot-demo.mp4)
 - **Source code:** https://github.com/SiddarthaDarisi/preppilot
 - **System design:** https://github.com/SiddarthaDarisi/preppilot/blob/main/docs/ARCHITECTURE.md
 
