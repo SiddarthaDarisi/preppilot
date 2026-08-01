@@ -24,6 +24,7 @@ flowchart TD
     end
 
     subgraph Server["FastAPI backend (backend/main.py)"]
+        API["REST /api/*"]
         WS["WebSocket /ws/session/{id}"]
         ORCH[orchestrator.py — async turn state machine]
         VAD[audio/vad.py — Silero VAD + energy fallback]
@@ -34,8 +35,9 @@ flowchart TD
         DB[(SQLite via SQLAlchemy 2.0)]
     end
 
-    UI -- REST /api/* --> WS
+    UI -- REST /api/* --> API
     MIC -- binary PCM frames --> WS
+    API <--> ORCH
     WS <--> ORCH
     ORCH --> VAD --> STT --> AN
     AN --> LLM --> TTS
@@ -52,7 +54,7 @@ Two transports drive the **same** orchestrator:
 
 The frontend is a **static export** served by the backend itself, so the browser talks to
 one origin. `frontend/src/lib/api.ts` derives the API/WS base from
-`window.location` — `""` for REST and `wss://<host>` for the socket — which is why the same
+`window.location` — `""` for REST and `ws(s)://<host>` for the socket — which is why the same
 build runs locally, in Docker, and on a hosted demo with **no code change**.
 
 ## 3. Anatomy of one interview turn

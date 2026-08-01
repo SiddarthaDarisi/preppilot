@@ -1,11 +1,5 @@
 # Portfolio Artifact — PrepPilot
 
-> Paste-ready artifact entry for the AIML-500 professional portfolio — drop this into your
-> portfolio site (Google Sites / Wix / GitHub Pages). Keep the **Reflection** out of the
-> public site; submit it to Brightspace.
-
----
-
 ## Title
 **PrepPilot — A Local-First AI Mock-Interview Tutor**
 
@@ -42,18 +36,18 @@ trade-offs around reliability, cost, and privacy.
    canned "fake" provider) with automatic fallback, all output parsed as strict JSON.
 5. **Engineered for graceful degradation** — every heavy dependency is imported lazily so
    the app boots and the full text loop works with zero ML dependencies installed.
-6. **Tested and documented** — 58 GPU-free unit tests, a system-design document, and a free
-   cloud text-mode demo deployed via Docker.
+6. **Tested and documented** — 58 GPU-free unit tests, a system-design document, and a
+   text-mode build deployable via Docker (see `DEPLOY.md`).
 
 ## Tools and Technologies Used
 - **Backend:** Python, FastAPI, WebSockets, SQLAlchemy 2.0, SQLite, Pydantic
 - **AI / ML:** Ollama (qwen3), Claude Haiku 4.5 / GPT-5 mini (cloud option), faster-whisper
   (STT), Silero VAD, Kokoro TTS, parselmouth + librosa (prosody analytics)
-- **Frontend:** Next.js 14 (App Router), TypeScript, static export, hand-rolled canvas charts
-- **Infra / tooling:** Docker, Render / Koyeb (free demo host), GitHub, pytest, uv
+- **Frontend:** Next.js 16 (App Router), TypeScript, static export, hand-rolled canvas charts
+- **Infra / tooling:** Docker, GitHub, pytest
 
 ## Value Proposition
-*(Artifact-specific value proposition)* **PrepPilot gives job seekers a private, unlimited,
+**PrepPilot gives job seekers a private, unlimited,
 judgment-free way to rehearse interviews and get concrete feedback on their delivery — the
 part generic AI chat tools ignore — without sending their voice to the cloud.**
 
@@ -78,12 +72,3 @@ budgeting, and reliable UX — the exact skill set an AI/ML practitioner is hire
 ## References
 - faster-whisper (CTranslate2), Silero VAD, Kokoro-82M TTS, Ollama, parselmouth (Praat),
   librosa — see `requirements.txt` / `requirements-voice.txt` in the repo for exact versions.
-
----
-
-### Reflection (for Brightspace — do NOT put this on the public portfolio)
-- **Customization for the audience:** _How did you tailor this artifact for reviewers /
-  employers?_
-- **Lessons learned:** _e.g., fitting multiple models in 8 GB VRAM; why graceful degradation
-  and lazy imports mattered; designing the shared schema contract first._
-- **Feedback and revisions:** _What feedback did you get and how did you incorporate it?_

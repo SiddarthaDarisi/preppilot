@@ -21,9 +21,9 @@ mic → Silero VAD → faster-whisper (word timestamps) → prosody + filler ana
 - **Adaptive interviewer** — one question at a time, targeted follow-ups when an answer is vague or misses a STAR element; calibrated to role, seniority, and a pasted job description.
 - **Structured coaching** — 1–10 rubric (content, structure/STAR, specificity, technical accuracy, delivery) with concrete rewrites, referencing your actual words and metrics.
 - **Delivery analytics, not black-box emotion labels** — WPM, pause ratio, long pauses, filler rate, pitch variance, energy dynamics, and documented `confidence_proxy` + `expressiveness` composites (formulas in `backend/analytics/metrics.py`). Instant rule-based alerts (pace, fillers, monotone) appear seconds before the LLM feedback, and fillers are highlighted inline in the transcript.
-- **Voice or text mode** — full spoken loop (VAD turn-taking, TTS interviewer voice) or type answers with zero heavy dependencies. Launch always via `run.ps1`/`run.bat` so the voice stack can't silently go missing.
+- **Voice or text mode** — full spoken loop (VAD turn-taking, TTS interviewer voice) or type answers with zero heavy dependencies. Always launch via `run.ps1`/`run.bat` so the voice stack can't silently go missing.
 - **Question bank** — generate a tailored study list for a role/JD (`/question-bank`), then hand off to a live interview tuned to those categories.
-- **Session history dashboard** — per-session reports (printable) with a 1-week practice plan, plus cross-session trend charts for scores and delivery habits and a "filler habits" leaderboard.
+- **Session history dashboard** — per-session reports (printable) with a 1-week practice plan, plus cross-session trend charts for scores and delivery habits, and a "filler habits" leaderboard.
 - **Provider abstraction** — `config.yaml` switches between local Ollama and Anthropic/OpenAI; automatic fallback if Ollama isn't running (and a canned `fake` provider for offline demos/tests).
 
 ## Quickstart (text mode — no GPU needed)
@@ -47,8 +47,9 @@ with the correct WebSocket keepalive flags. **Don't run
 `python -m uvicorn backend.main:app` directly** unless you're certain that
 Python has every package in `requirements.txt` *and* `requirements-voice.txt`
 importable — otherwise voice mode degrades silently (empty transcripts, no
-interviewer audio) instead of erroring. See `CLAUDE.md` for the venv setup
-these scripts expect.
+interviewer audio) instead of erroring. The scripts expect a `.venv` created
+with Python 3.12 and both requirements files installed into it (see
+[DEPLOY.md](DEPLOY.md)).
 
 No Ollama? Set a cloud provider instead:
 
@@ -66,7 +67,7 @@ pip install -r requirements-voice.txt   # faster-whisper, silero-vad, kokoro, pa
 ```
 
 - Needs CUDA 12 + cuDNN 9 for ctranslate2 (cuDNN 8 → `pip install --force-reinstall ctranslate2==4.4.0`).
-- First run downloads Whisper large-v3 (INT8, ~3GB VRAM) and Kokoro (~330MB, runs on CPU).
+- First run downloads Whisper large-v3 (INT8, ~3.5GB VRAM) and Kokoro (~330MB, runs on CPU).
 - Pick **Voice answers** in the setup panel. End-of-turn auto-detects after ~1s of silence ("Done answering" forces it).
 
 ### Fitting in 8GB VRAM
@@ -75,7 +76,7 @@ Do **not** pin two 7–8B models at once (`OLLAMA_MAX_LOADED_MODELS=1`).
 
 | Strategy | LLM | Whisper | How |
 |---|---|---|---|
-| **A — co-resident** (lowest latency) | `qwen3:4b` (~2.5GB) | large-v3 INT8 (~3.5GB) pinned | everything stays hot, ~6.5GB total |
+| **A — co-resident** (lowest latency) | `qwen3:4b` (~2.5GB) | large-v3 INT8 (~3.5GB) pinned | everything stays hot, ~6GB + CUDA overhead |
 | **B — sequential** (best quality, default config) | `qwen3:8b` (~5.5GB) on demand | pinned | Ollama loads/unloads the LLM between turns (~1–2s) |
 
 Optional Ollama env (Windows: user env vars, restart the tray app): `OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q8_0`.
@@ -92,7 +93,7 @@ Everything lives in `config.yaml`; any value can be overridden by env var, e.g. 
 ## Development
 
 ```bash
-.venv/Scripts/python.exe -m pytest tests/ -q   # analytics + VAD unit tests (no GPU required)
+.venv/Scripts/python.exe -m pytest tests/ -q   # 58 GPU-free unit tests (analytics, VAD, health flags, resume, …)
 cd frontend && npm run dev                      # hot-reload UI on :3000 (proxies to :8000)
 .\run.ps1 -Fake                                 # offline backend (canned LLM, run.bat: set PREPPILOT_LLM__PROVIDER=fake & run.bat)
 ```
